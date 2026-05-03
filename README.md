@@ -1,99 +1,90 @@
 # Team Task Manager
 
-Full-stack Team Task Manager built with:
-- Backend: Spring Boot (Java 17, Maven)
-- Database: PostgreSQL
-- Frontend: React (Vite), Axios, TailwindCSS
-- Authentication: JWT
+A full-stack Team Task Manager web application with role-based access control.
 
-## Project Structure
+## 🚀 Live Demo
+- **Frontend:** https://team-task-manager-frontend-gvay.onrender.com
+- **Backend API:** https://team-task-manager-backend-acfd.onrender.com
+- **GitHub Repo:** https://github.com/harshinchurkar7/team-task-manager
 
-- `backend` - Spring Boot REST API
-- `frontend` - React web app
+## 🔑 Default Login
+- **Admin:** admin@test.com / admin123
+- **Member:** signup as new user and select role Member
 
-## Prerequisites
+## 🛠 Tech Stack
+- **Backend:** Spring Boot (Java), Maven
+- **Database:** PostgreSQL
+- **Frontend:** React (Vite), Axios, TailwindCSS
+- **Auth:** JWT
+- **Deployed on:** Render
 
-- Java 17
+## ✨ Features
+- JWT Authentication (Signup/Login with role selection)
+- Role-based access control (Admin/Member)
+- Admin Dashboard: universal stats, all tasks, all projects
+- Member Dashboard: personal stats, assigned tasks only
+- Project management with member assignment (Free/Busy status)
+- Task creation, assignment and status tracking
+- Overdue task highlighting in red
+- Toast notifications for all actions
+- User-friendly error messages
+- Protected routes by role
+
+## 📁 Project Structure
+- /backend → Spring Boot REST API (port 8080)
+- /frontend → React web app (port 3000)
+
+## 🏃 Run Locally
+
+### Prerequisites
+- Java 17+
 - Maven
-- Node.js 20+
-- PostgreSQL 14+
+- Node.js 18+
+- PostgreSQL
 
-## Database Setup
-
-Create database and ensure credentials:
-- DB name: `taskmanager`
-- Username: `postgres`
-- Password: `postgres`
-- Port: `5432`
-
-Example SQL:
-
-```sql
+### Database Setup
 CREATE DATABASE taskmanager;
-```
 
-## Backend Setup (`/backend`)
+### Backend
+cd backend
+mvn spring-boot:run
 
-1. Install dependencies and run:
-   - `mvn spring-boot:run`
-2. Backend runs on:
-   - `http://localhost:8080`
-3. Config is pre-set in:
-   - `backend/src/main/resources/application.properties`
+### Frontend
+cd frontend
+npm install
+npm run dev
 
-### Default Admin Seeder
+## 🔑 Default Admin Account
+- Email: admin@test.com
+- Password: admin123
 
-On startup, a default admin is created (if not existing):
-- Email: `admin@test.com`
-- Password: `admin123`
-
-## Frontend Setup (`/frontend`)
-
-1. Install dependencies:
-   - `npm install`
-2. Run dev server:
-   - `npm run dev`
-3. Frontend runs on:
-   - `http://localhost:3000`
-
-## API Endpoints
+## 🔗 API Endpoints
 
 ### Auth
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
+- POST /api/auth/signup
+- POST /api/auth/login
 
 ### Projects (JWT Protected)
-- `POST /api/projects` (ADMIN)
-- `GET /api/projects`
-- `POST /api/projects/{id}/members` (ADMIN)
-- `DELETE /api/projects/{id}` (ADMIN)
+- POST /api/projects (ADMIN only)
+- GET /api/projects
+- POST /api/projects/{id}/members (ADMIN only)
+- DELETE /api/projects/{id}/members/{userId} (ADMIN only)
+- DELETE /api/projects/{id} (ADMIN only)
 
 ### Tasks (JWT Protected)
-- `POST /api/tasks` (ADMIN)
-- `GET /api/tasks/project/{projectId}`
-- `PUT /api/tasks/{id}` (ADMIN can edit full task, MEMBER can update status)
-- `DELETE /api/tasks/{id}` (ADMIN)
-- `GET /api/tasks/overdue`
+- POST /api/tasks (ADMIN only)
+- GET /api/tasks/project/{projectId}
+- PUT /api/tasks/{id}
+- PUT /api/tasks/{id}/unassign (ADMIN only)
+- DELETE /api/tasks/{id} (ADMIN only)
+- GET /api/tasks/overdue
+- GET /api/tasks/assigned/me
 
-### Dashboard (JWT Protected)
-- `GET /api/dashboard`
+### Dashboard
+- GET /api/dashboard
+- GET /api/dashboard/admin
+- GET /api/dashboard/member
 
-Returns:
-- total tasks
-- tasks by status
-- overdue tasks count
-- my assigned tasks
-
-## Auth Flow
-
-- Login/signup response returns JWT token + user details.
-- Frontend stores JWT in `localStorage`.
-- Axios interceptor attaches `Authorization: Bearer <token>` on every request.
-- Protected routes redirect unauthenticated users to `/login`.
-
-## Notes
-
-- CORS allows `http://localhost:3000`.
-- Validation includes email format, min password length (6), and non-empty fields.
-- Proper HTTP status codes and error messages are returned from backend handlers.
-update 
+## 🔐 Role-Based Access
+- ADMIN: create/delete projects, create/delete/assign tasks, manage members
+- MEMBER: view enrolled projects, view and update status of assigned tasks only
