@@ -96,3 +96,4 @@ Returns:
 - CORS allows `http://localhost:3000`.
 - Validation includes email format, min password length (6), and non-empty fields.
 - Proper HTTP status codes and error messages are returned from backend handlers.
+update 
