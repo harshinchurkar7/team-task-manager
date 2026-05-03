@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: team-task-manager-backend
+    runtime: java
+    rootDir: backend
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/backend-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: JWT_SECRET
+        value: taskmanager_super_secret_key_2024_very_long_string
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: team-task-manager-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: team-task-manager-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: team-task-manager-db
+          property: password
+
+  - type: web
+    name: team-task-manager-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://team-task-manager-backend.onrender.com
+
+databases:
+  - name: team-task-manager-db
+    plan: free
